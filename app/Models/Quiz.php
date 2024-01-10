@@ -9,7 +9,13 @@ use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 
 class Quiz extends Model
 {
-    use BelongsToTenant;
+    use HasFactory, BelongsToTenant;
+
+    protected $fillable = [
+        'title',
+        'slug',
+        'description',
+    ];
 
     public function questions(): HasMany
     {
