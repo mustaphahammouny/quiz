@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('tenant_id');
+            $table->string('tenant_id');
             $table->foreignId('quiz_id')->constrained()->onDelete('cascade');
             $table->string('question');
             $table->string('slug')->unique();
             $table->string('description')->nullable()->default(null);
             $table->timestamps();
+            $table->foreign('tenant_id')->references('id')->on('tenants')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

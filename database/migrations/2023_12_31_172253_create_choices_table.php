@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('choices', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('tenant_id');
+            $table->string('tenant_id');
             $table->foreignId('question_id')->constrained()->onDelete('cascade');
             $table->string('title');
             $table->boolean('is_correct')->default(false);
@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('description')->nullable()->default(null);
             $table->string('explanation')->nullable()->default(null);
             $table->timestamps();
+            $table->foreign('tenant_id')->references('id')->on('tenants')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
