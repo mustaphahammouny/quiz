@@ -16,6 +16,8 @@ class QuizUpdateRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
+            'start_time' => ['nullable', 'date'],
+            'end_time' => ['nullable', 'date'],
         ];
     }
 }

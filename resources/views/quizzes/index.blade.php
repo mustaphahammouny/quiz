@@ -1,8 +1,13 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Quizzes') }}
-        </h2>
+        <div class="flex justify-between items-center">
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                {{ __('Quizzes') }}
+            </h2>
+            <x-primary-link :href="route('quizzes.create')">
+                Create
+            </x-primary-link>
+        </div>
     </x-slot>
 
     <div class="py-12">
@@ -16,7 +21,8 @@
                             <tr>
                                 <th scope="col" class="px-6 py-4">Title</th>
                                 <th scope="col" class="px-6 py-4">Slug</th>
-                                <th scope="col" class="px-6 py-4">Description</th>
+                                <th scope="col" class="px-6 py-4">Start time</th>
+                                <th scope="col" class="px-6 py-4">End time</th>
                                 <th scope="col" class="px-6 py-4 text-center">Actions</th>
                             </tr>
                         </thead>
@@ -25,9 +31,12 @@
                                 <tr class="border-b">
                                     <td class="px-6 py-4 font-medium">{{ $quiz->title }}</td>
                                     <td class="px-6 py-4">{{ $quiz->slug }}</td>
-                                    <td class="px-6 py-4">{{ $quiz->description }}</td>
+                                    <td class="whitespace-nowrap px-6 py-4">
+                                        {{ $quiz->start_time?->format('d/m/Y H:i') }}</td>
+                                    <td class="whitespace-nowrap px-6 py-4">{{ $quiz->end_time?->format('d/m/Y H:i') }}
+                                    </td>
                                     <td class="whitespace-nowrap text-right">
-                                        <x-primary-link href="{{ route('quizzes.edit', ['quiz' => $quiz->id]) }}">
+                                        <x-primary-link :href="route('quizzes.edit', ['quiz' => $quiz->id])">
                                             Edit
                                         </x-primary-link>
                                         <x-danger-button x-data="{ route: {{ route('quizzes.destroy', ['quiz' => $quiz->id]) }} }"
