@@ -24,8 +24,8 @@
 
                         <div class="mt-4">
                             <x-input-label for="start_time" value="Start time" />
-                            <x-text-input id="start_time" class="block mt-1 w-full" type="datetime-local" name="start_time"
-                                :value="old('start_time') ?? $quiz->start_time" />
+                            <x-text-input id="start_time" class="block mt-1 w-full" type="datetime-local"
+                                name="start_time" :value="old('start_time') ?? $quiz->start_time" />
                             <x-input-error :messages="$errors->get('start_time')" class="mt-2" />
                         </div>
 

@@ -12,6 +12,13 @@ class Question extends Model
 {
     use HasFactory, BelongsToTenant;
 
+    protected $fillable = [
+        'quiz_id',
+        'question',
+        'slug',
+        'description',
+    ];
+
     public function quiz(): BelongsTo
     {
         return $this->belongsTo(Quiz::class);
