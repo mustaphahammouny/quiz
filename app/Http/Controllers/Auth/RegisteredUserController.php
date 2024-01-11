@@ -41,10 +41,16 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        $centralDomains = config('tenancy.central_domains');
         $subdomain = Str::slug($request->subdomain);
 
         $tenant = Tenant::create(['id' => $subdomain]);
-        $tenant->domains()->create(['domain' => "{$subdomain}.localhost"]);
+
+        $domains = [];
+        foreach ($centralDomains as $centralDomain) {
+            $domains[] = ['domain' => "{$subdomain}.{$centralDomain}"];
+        }
+        $tenant->domains()->createMany($domains);
 
         Tenancy::initialize($tenant);
 
