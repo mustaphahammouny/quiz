@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('title');
             $table->boolean('is_correct')->default(false);
             $table->integer('order')->default(0);
-            $table->string('description')->nullable()->default(null);
-            $table->string('explanation')->nullable()->default(null);
+            $table->text('description')->nullable()->default(null);
+            $table->text('explanation')->nullable()->default(null);
             $table->timestamps();
             $table->foreign('tenant_id')->references('id')->on('tenants')->onUpdate('cascade')->onDelete('cascade');
         });

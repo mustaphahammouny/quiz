@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\QuizStoreRequest;
-use App\Http\Requests\QuizUpdateRequest;
+use App\Http\Requests\QuizRequest;
 use App\Models\Quiz;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -33,7 +32,7 @@ class QuizController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(QuizStoreRequest $request)
+    public function store(QuizRequest $request)
     {
         $data = $request->validated();
 
@@ -64,7 +63,7 @@ class QuizController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(QuizUpdateRequest $request, Quiz $quiz)
+    public function update(QuizRequest $request, Quiz $quiz)
     {
         $data = $request->validated();
 

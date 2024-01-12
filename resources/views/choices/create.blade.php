@@ -2,9 +2,9 @@
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                Create quiz
+                Create choice
             </h2>
-            <x-secondary-link :href="route('quizzes.index')">
+            <x-secondary-link :href="route('choices.index', ['question' => $question->id])">
                 Return
             </x-secondary-link>
         </div>
@@ -16,28 +16,30 @@
                 <div class="w-full sm:max-w-md mx-auto p-6 text-gray-900 dark:text-gray-100">
                     <x-alert-session />
 
-                    <form method="post" action="{{ route('quizzes.store') }}">
+                    <form method="post" action="{{ route('choices.store', ['question' => $question->id]) }}">
                         @csrf
 
                         <div>
-                            <x-input-label for="title" value="Title" />
+                            <x-input-label for="title" value="title" />
                             <x-text-input id="title" class="block mt-1 w-full" type="text" name="title"
                                 :value="old('title')" required autofocus />
                             <x-input-error :messages="$errors->get('title')" class="mt-2" />
                         </div>
 
                         <div class="mt-4">
-                            <x-input-label for="start_time" value="Start time" />
-                            <x-text-input id="start_time" class="block mt-1 w-full" type="datetime-local"
-                                name="start_time" :value="old('start_time')" />
-                            <x-input-error :messages="$errors->get('start_time')" class="mt-2" />
+                            <x-input-label for="order" value="order" />
+                            <x-text-input id="order" class="block mt-1 w-full" type="number" name="order"
+                                :value="old('order')" required />
+                            <x-input-error :messages="$errors->get('order')" class="mt-2" />
                         </div>
 
-                        <div class="mt-4">
-                            <x-input-label for="end_time" value="End time" />
-                            <x-text-input id="end_time" class="block mt-1 w-full" type="datetime-local" name="end_time"
-                                :value="old('end_time')" />
-                            <x-input-error :messages="$errors->get('end_time')" class="mt-2" />
+                        <div class="block mt-4">
+                            <label for="is_correct" class="inline-flex items-center">
+                                <input id="is_correct" type="checkbox"
+                                    class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800"
+                                    name="is_correct">
+                                <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">Is correct</span>
+                            </label>
                         </div>
 
                         <div class="mt-4">
@@ -45,6 +47,13 @@
                             <x-text-textarea id="description" class="block mt-1 w-full" type="text"
                                 name="description">{{ old('description') }}</x-text-textarea>
                             <x-input-error :messages="$errors->get('description')" class="mt-2" />
+                        </div>
+
+                        <div class="mt-4">
+                            <x-input-label for="explanation" value="Explanation" />
+                            <x-text-textarea id="explanation" class="block mt-1 w-full" type="text"
+                                name="explanation">{{ old('explanation') }}</x-text-textarea>
+                            <x-input-error :messages="$errors->get('explanation')" class="mt-2" />
                         </div>
 
                         <div class="flex items-center justify-end mt-4">

@@ -16,9 +16,9 @@ return new class extends Migration
             $table->string('tenant_id');
             $table->string('title');
             $table->string('slug');
-            $table->string('description')->nullable()->default(null);
             $table->timestamp('start_time')->nullable();
             $table->timestamp('end_time')->nullable();
+            $table->text('description')->nullable()->default(null);
             $table->timestamps();
             $table->foreign('tenant_id')->references('id')->on('tenants')->onUpdate('cascade')->onDelete('cascade');
             $table->unique(['slug', 'tenant_id']);

@@ -2,11 +2,16 @@
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                Quizzes
+                Choices of the question : {{ $question->question }}
             </h2>
-            <x-primary-link :href="route('quizzes.create')">
-                Create
-            </x-primary-link>
+            <div class="whitespace-nowrap">
+                <x-secondary-link :href="route('questions.index', ['quiz' => $question->quiz_id])">
+                    Return
+                </x-secondary-link>
+                <x-primary-link :href="route('choices.create', ['question' => $question->id])">
+                    Create
+                </x-primary-link>
+            </div>
         </div>
     </x-slot>
 
@@ -20,30 +25,29 @@
                         <thead class="border-b font-medium">
                             <tr>
                                 <th scope="col" class="px-6 py-4">Title</th>
-                                <th scope="col" class="px-6 py-4">Slug</th>
-                                <th scope="col" class="px-6 py-4">Start time</th>
-                                <th scope="col" class="px-6 py-4">End time</th>
+                                <th scope="col" class="px-6 py-4 text-center">Order</th>
+                                <th scope="col" class="px-6 py-4 text-center">Is Correct</th>
                                 <th scope="col" class="px-6 py-4 text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($quizzes as $quiz)
+                            @forelse ($choices as $choice)
                                 <tr class="border-b">
-                                    <td class="px-6 py-4 font-medium">{{ $quiz->title }}</td>
-                                    <td class="px-6 py-4">{{ $quiz->slug }}</td>
-                                    <td class="whitespace-nowrap px-6 py-4">
-                                        {{ $quiz->start_time?->format('d/m/Y H:i') }}</td>
-                                    <td class="whitespace-nowrap px-6 py-4">{{ $quiz->end_time?->format('d/m/Y H:i') }}
+                                    <td class="px-6 py-4 font-medium">{{ $choice->title }}</td>
+                                    <td class="px-6 py-4 text-center">{{ $choice->order }}</td>
+                                    <td class="px-6 py-4 text-center">
+                                        @if ($choice->is_correct)
+                                            <x-badge color="green" title="Correct" />
+                                        @else
+                                            <x-badge color="red" title="Incorrect" />
+                                        @endif
                                     </td>
                                     <td class="whitespace-nowrap text-right">
-                                        <x-primary-link :href="route('questions.index', ['quiz' => $quiz->id])">
-                                            Questions
-                                        </x-primary-link>
-                                        <x-primary-link :href="route('quizzes.edit', ['quiz' => $quiz->id])">
+                                        <x-primary-link :href="route('choices.edit', ['choice' => $choice->id])">
                                             Edit
                                         </x-primary-link>
-                                        <x-danger-button x-data="{ route: '{{ route('quizzes.destroy', ['quiz' => $quiz->id]) }}' }"
-                                            x-on:click.prevent="() => {selectedRoute = route; $dispatch('open-modal', 'confirm-quiz-deletion');}">
+                                        <x-danger-button x-data="{ route: '{{ route('choices.destroy', ['choice' => $choice->id]) }}' }"
+                                            x-on:click.prevent="() => {selectedRoute = route; $dispatch('open-modal', 'confirm-choice-deletion');}">
                                             Delete
                                         </x-danger-button>
                                     </td>
@@ -54,24 +58,20 @@
                     </table>
 
                     <div class="pt-4">
-                        {{ $quizzes->links() }}
+                        {{ $choices->links() }}
                     </div>
                 </div>
             </div>
         </div>
 
-        <x-modal name="confirm-quiz-deletion" focusable>
+        <x-modal name="confirm-choice-deletion" focusable>
             <form method="post" x-bind:action="selectedRoute" class="p-6">
                 @csrf
                 @method('delete')
 
                 <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                    Are you sure you want to delete this quiz?
+                    Are you sure you want to delete this choice?
                 </h2>
-
-                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    Once the quiz is deleted, all of its questions and choices will be permanently deleted.
-                </p>
 
                 <div class="mt-6 flex justify-end">
                     <x-secondary-button x-on:click="$dispatch('close')">

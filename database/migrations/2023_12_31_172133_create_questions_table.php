@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('quiz_id')->constrained()->onDelete('cascade');
             $table->string('question');
             $table->string('slug');
-            $table->string('description')->nullable()->default(null);
+            $table->text('description')->nullable()->default(null);
             $table->timestamps();
             $table->foreign('tenant_id')->references('id')->on('tenants')->onUpdate('cascade')->onDelete('cascade');
             $table->unique(['slug', 'tenant_id']);

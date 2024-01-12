@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class QuestionUpdateRequest extends FormRequest
+class QuizRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -14,8 +14,10 @@ class QuestionUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'question' => ['required', 'string', 'max:255'],
+            'title' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
+            'start_time' => ['nullable', 'date'],
+            'end_time' => ['nullable', 'date'],
         ];
     }
 }

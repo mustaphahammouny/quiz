@@ -1,8 +1,13 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            Edit quiz
-        </h2>
+        <div class="flex justify-between items-center">
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                Edit quiz
+            </h2>
+            <x-secondary-link :href="route('quizzes.index')">
+                Return
+            </x-secondary-link>
+        </div>
     </x-slot>
 
     <div class="py-12">
@@ -44,9 +49,6 @@
                         </div>
 
                         <div class="flex items-center justify-end mt-4">
-                            <x-secondary-link :href="route('quizzes.index')">
-                                Cancel
-                            </x-secondary-link>
                             <x-primary-button class="ms-3">
                                 Save
                             </x-primary-button>

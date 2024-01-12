@@ -11,6 +11,19 @@ class Choice extends Model
 {
     use HasFactory, BelongsToTenant;
 
+    protected $fillable = [
+        'question_id',
+        'title',
+        'is_correct',
+        'order',
+        'description',
+        'explanation',
+    ];
+
+    protected $casts = [
+        'is_correct' => 'boolean',
+    ];
+
     public function question(): BelongsTo
     {
         return $this->belongsTo(Question::class);
