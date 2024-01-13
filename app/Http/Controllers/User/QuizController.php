@@ -18,7 +18,7 @@ class QuizController extends Controller
     {
         $quizzes = Quiz::paginate(10);
 
-        return view('quizzes.index', compact('quizzes'));
+        return view('user.quizzes.index', compact('quizzes'));
     }
 
     /**
@@ -26,7 +26,7 @@ class QuizController extends Controller
      */
     public function create()
     {
-        return view('quizzes.create');
+        return view('user.quizzes.create');
     }
 
     /**
@@ -40,7 +40,7 @@ class QuizController extends Controller
 
         $this->persist($quiz, $data);
 
-        return redirect()->route('quizzes.index')
+        return redirect()->route('user.quizzes.index')
             ->with('success', 'Quiz created successfully!');
     }
 
@@ -57,7 +57,7 @@ class QuizController extends Controller
      */
     public function edit(Quiz $quiz)
     {
-        return view('quizzes.edit', compact('quiz'));
+        return view('user.quizzes.edit', compact('quiz'));
     }
 
     /**
@@ -69,7 +69,7 @@ class QuizController extends Controller
 
         $this->persist($quiz, $data);
 
-        return redirect()->route('quizzes.index')
+        return redirect()->route('user.quizzes.index')
             ->with('success', 'Quiz updated successfully!');
     }
 

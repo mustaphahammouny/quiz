@@ -10,7 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 
-class User extends Authenticatable
+class Member extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes, BelongsToTenant;
 

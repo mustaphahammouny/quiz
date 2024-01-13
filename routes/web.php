@@ -23,7 +23,7 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth', 'verified', InitializeTenancyByUser::class])->group(function () {
-    Route::view('dashboard', 'dashboard')->name('dashboard');
+    Route::view('dashboard', 'user.dashboard')->name('dashboard');
 
     Route::resource('quizzes', QuizController::class);
 

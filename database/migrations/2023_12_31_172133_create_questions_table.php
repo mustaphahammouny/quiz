@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('slug');
             $table->text('description')->nullable()->default(null);
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign('tenant_id')->references('id')->on('tenants')->onUpdate('cascade')->onDelete('cascade');
             $table->unique(['slug', 'tenant_id']);
         });

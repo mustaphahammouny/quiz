@@ -18,7 +18,7 @@ class ChoiceController extends Controller
     {
         $choices = $question->choices()->paginate(10);
 
-        return view('choices.index', compact('question', 'choices'));
+        return view('user.choices.index', compact('question', 'choices'));
     }
 
     /**
@@ -26,7 +26,7 @@ class ChoiceController extends Controller
      */
     public function create(Question $question)
     {
-        return view('choices.create', compact('question'));
+        return view('user.choices.create', compact('question'));
     }
 
     /**
@@ -42,7 +42,7 @@ class ChoiceController extends Controller
 
         $this->persist($choice, $data);
 
-        return redirect()->route('choices.index', ['question' => $question->id])
+        return redirect()->route('user.choices.index', ['question' => $question->id])
             ->with('success', 'Choice created successfully!');
     }
 
@@ -61,7 +61,7 @@ class ChoiceController extends Controller
     {
         $choice->load('question');
 
-        return view('choices.edit', compact('choice'));
+        return view('user.choices.edit', compact('choice'));
     }
 
     /**
@@ -74,7 +74,7 @@ class ChoiceController extends Controller
 
         $this->persist($choice, $data);
 
-        return redirect()->route('choices.index', ['question' => $choice->question_id])
+        return redirect()->route('user.choices.index', ['question' => $choice->question_id])
             ->with('success', 'Choice updated successfully!');
     }
 

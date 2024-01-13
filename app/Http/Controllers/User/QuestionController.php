@@ -19,7 +19,7 @@ class QuestionController extends Controller
     {
         $questions = $quiz->questions()->paginate(10);
 
-        return view('questions.index', compact('quiz', 'questions'));
+        return view('user.questions.index', compact('quiz', 'questions'));
     }
 
     /**
@@ -27,7 +27,7 @@ class QuestionController extends Controller
      */
     public function create(Quiz $quiz)
     {
-        return view('questions.create', compact('quiz'));
+        return view('user.questions.create', compact('quiz'));
     }
 
     /**
@@ -42,7 +42,7 @@ class QuestionController extends Controller
 
         $this->persist($question, $data);
 
-        return redirect()->route('questions.index', ['quiz' => $quiz->id])
+        return redirect()->route('user.questions.index', ['quiz' => $quiz->id])
             ->with('success', 'Quiz created successfully!');
     }
 
@@ -61,7 +61,7 @@ class QuestionController extends Controller
     {
         $question->load('quiz');
 
-        return view('questions.edit', compact('question'));
+        return view('user.questions.edit', compact('question'));
     }
 
     /**
@@ -73,7 +73,7 @@ class QuestionController extends Controller
 
         $this->persist($question, $data);
 
-        return redirect()->route('questions.index', ['quiz' => $question->quiz_id])
+        return redirect()->route('user.questions.index', ['quiz' => $question->quiz_id])
             ->with('success', 'Question updated successfully!');
     }
 
