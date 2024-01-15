@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\Choice;
+use App\Models\Member;
 use App\Models\Question;
 use App\Models\Quiz;
 use App\Models\Tenant;
@@ -28,15 +29,20 @@ class DatabaseSeeder extends Seeder
                     'email' => "{$subdomain}@quiz.com",
                 ]);
 
+                Member::factory()->create([
+                    'name' => 'member1',
+                    'email' => "member1@quiz.com",
+                ]);
+
                 Quiz::factory()
-                    ->count(10)
+                    ->count(rand(2, 10))
                     ->has(
                         Question::factory()
-                            ->count(10)
+                            ->count(rand(5, 10))
                             ->has(
                                 Choice::factory()
-                                    ->count(10)
-                                    ->sequence(fn (Sequence $sequence) => ['order' => ($sequence->index + 1) % 10])
+                                    ->count(5)
+                                    ->sequence(fn (Sequence $sequence) => ['order' => ($sequence->index + 1) % 5])
                             )
                     )
                     ->create();

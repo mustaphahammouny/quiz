@@ -34,6 +34,25 @@
                                 </span>
                             @endif
                         </div>
+                        <div class="px-6 pb-4">
+                            @if (!$quiz->members_exists)
+                                <form method="post"
+                                    action="{{ route('tenant.quizzes.subscribe', ['quiz' => $quiz->id]) }}">
+                                    @csrf
+                                    <x-primary-button type="submit">
+                                        Subscribe
+                                    </x-primary-button>
+                                </form>
+                            @else
+                                <form method="post"
+                                    action="{{ route('tenant.quizzes.unsubscribe', ['quiz' => $quiz->id]) }}">
+                                    @csrf
+                                    <x-secondary-button type="submit">
+                                        Unsubscribe
+                                    </x-secondary-button>
+                                </form>
+                            @endif
+                        </div>
                     </div>
                 @empty
                 @endforelse

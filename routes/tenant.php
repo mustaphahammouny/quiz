@@ -11,7 +11,9 @@ use App\Http\Controllers\Tenant\Auth\PasswordController;
 use App\Http\Controllers\Tenant\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Tenant\Auth\RegisteredUserController;
 use App\Http\Controllers\Tenant\Auth\VerifyEmailController;
+use App\Http\Controllers\Tenant\GoogleController;
 use App\Http\Controllers\Tenant\ProfileController;
+use App\Http\Controllers\Tenant\QuizController;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
@@ -35,9 +37,7 @@ Route::middleware([
 ])
     ->name('tenant.')
     ->group(function () {
-        Route::get('/', function () {
-            return 'This is your multi-tenant application. The id of the current tenant is ' . tenant('id');
-        });
+        Route::view('/', 'tenant.welcome');
 
         Route::middleware('guest')->group(function () {
             Route::get('register', [RegisteredUserController::class, 'create'])
@@ -90,5 +90,10 @@ Route::middleware([
             Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
             Route::view('dashboard', 'tenant.dashboard')->name('dashboard');
+
+            Route::get('quizzes', [QuizController::class, 'index'])->name('quizzes.index');
+            Route::post('quizzes/{quiz}/subscribe', [QuizController::class, 'subscribe'])->name('quizzes.subscribe');
+            Route::post('quizzes/{quiz}/unsubscribe', [QuizController::class, 'unsubscribe'])->name('quizzes.unsubscribe');
+            Route::get('quizzes/{token}', [QuizController::class, 'take'])->name('quizzes.take');
         });
     });
