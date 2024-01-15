@@ -35,4 +35,9 @@ class Quiz extends Model
     {
         return $this->belongsToMany(Member::class);
     }
+
+    public function attempts(): HasMany
+    {
+        return $this->hasMany(Attempt::class);
+    }
 }

@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Tenant\AttemptController;
 use App\Http\Controllers\Tenant\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Tenant\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Tenant\Auth\EmailVerificationNotificationController;
@@ -11,7 +12,6 @@ use App\Http\Controllers\Tenant\Auth\PasswordController;
 use App\Http\Controllers\Tenant\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Tenant\Auth\RegisteredUserController;
 use App\Http\Controllers\Tenant\Auth\VerifyEmailController;
-use App\Http\Controllers\Tenant\GoogleController;
 use App\Http\Controllers\Tenant\ProfileController;
 use App\Http\Controllers\Tenant\QuizController;
 use Illuminate\Support\Facades\Route;
@@ -95,5 +95,7 @@ Route::middleware([
             Route::post('quizzes/{quiz}/subscribe', [QuizController::class, 'subscribe'])->name('quizzes.subscribe');
             Route::post('quizzes/{quiz}/unsubscribe', [QuizController::class, 'unsubscribe'])->name('quizzes.unsubscribe');
             Route::get('quizzes/{token}', [QuizController::class, 'take'])->name('quizzes.take');
+
+            Route::post('quizzes/{quiz}/attemps', [AttemptController::class, 'store'])->name('attemps.store');
         });
     });
