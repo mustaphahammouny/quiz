@@ -16,9 +16,14 @@ class QuizFactory extends Factory
      */
     public function definition(): array
     {
+        $now = now();
+        $hasTime = fake()->boolean();
+
         return [
             'title' => fake()->title(),
             'slug' => fake()->slug(),
+            'start_time' => $hasTime ? $now->copy()->addMinutes(5) : null,
+            'end_time' => $hasTime ? $now->copy()->addMinutes(10) : null,
             'description' => fake()->text(),
         ];
     }
