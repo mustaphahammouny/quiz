@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\QuestionRequest;
+use App\Http\Requests\User\QuestionRequest;
 use App\Models\Question;
 use App\Models\Quiz;
 use Exception;
@@ -42,7 +42,7 @@ class QuestionController extends Controller
 
         $this->persist($question, $data);
 
-        return redirect()->route('user.questions.index', ['quiz' => $quiz->id])
+        return redirect()->route('questions.index', ['quiz' => $quiz->id])
             ->with('success', 'Quiz created successfully!');
     }
 
@@ -73,7 +73,7 @@ class QuestionController extends Controller
 
         $this->persist($question, $data);
 
-        return redirect()->route('user.questions.index', ['quiz' => $question->quiz_id])
+        return redirect()->route('questions.index', ['quiz' => $question->quiz_id])
             ->with('success', 'Question updated successfully!');
     }
 

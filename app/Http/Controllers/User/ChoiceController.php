@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ChoiceRequest;
+use App\Http\Requests\User\ChoiceRequest;
 use App\Models\Choice;
 use App\Models\Question;
 use Exception;
@@ -42,7 +42,7 @@ class ChoiceController extends Controller
 
         $this->persist($choice, $data);
 
-        return redirect()->route('user.choices.index', ['question' => $question->id])
+        return redirect()->route('choices.index', ['question' => $question->id])
             ->with('success', 'Choice created successfully!');
     }
 
@@ -74,7 +74,7 @@ class ChoiceController extends Controller
 
         $this->persist($choice, $data);
 
-        return redirect()->route('user.choices.index', ['question' => $choice->question_id])
+        return redirect()->route('choices.index', ['question' => $choice->question_id])
             ->with('success', 'Choice updated successfully!');
     }
 

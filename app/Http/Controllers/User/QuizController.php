@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\QuizRequest;
+use App\Http\Requests\User\QuizRequest;
 use App\Models\Quiz;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -40,7 +40,7 @@ class QuizController extends Controller
 
         $this->persist($quiz, $data);
 
-        return redirect()->route('user.quizzes.index')
+        return redirect()->route('quizzes.index')
             ->with('success', 'Quiz created successfully!');
     }
 
@@ -69,7 +69,7 @@ class QuizController extends Controller
 
         $this->persist($quiz, $data);
 
-        return redirect()->route('user.quizzes.index')
+        return redirect()->route('quizzes.index')
             ->with('success', 'Quiz updated successfully!');
     }
 
