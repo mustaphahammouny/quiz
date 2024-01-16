@@ -62,7 +62,9 @@ class QuizController extends Controller
         $member = Auth::guard('tenant')->user();
 
         $quiz = $member->quizzes()
-            ->with(['questions.choices'])
+            ->with(['questions.choices' => function ($query) {
+                $query->orderBy('order', 'asc');
+            }])
             ->wherePivot('token', $token)
             ->whereNull('end_time')
             ->orWhere('end_time', '>', now())

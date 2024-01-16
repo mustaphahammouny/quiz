@@ -98,5 +98,6 @@ Route::middleware([
 
             Route::post('quizzes/{quiz}/attempts', [AttemptController::class, 'store'])->name('attempts.store');
             Route::get('attempts', [AttemptController::class, 'index'])->name('attempts.index');
+            Route::get('attempts/{attempt}', [AttemptController::class, 'show'])->name('attempts.show');
         });
     });

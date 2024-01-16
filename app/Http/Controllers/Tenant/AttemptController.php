@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Tenant;
 use App\Events\Finished;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Tenant\AttemptRequest;
+use App\Models\Attempt;
 use App\Models\Quiz;
 use Exception;
 use Illuminate\Support\Facades\Auth;
@@ -14,6 +15,11 @@ class AttemptController extends Controller
 {
     public function index()
     {
+        $attempts = Attempt::with('quiz', 'answers')
+            ->where('member_id', Auth::guard('tenant')->id())
+            ->paginate(10);
+
+        return view('tenant.attempts.index', compact('attempts'));
     }
 
     public function store(AttemptRequest $request, Quiz $quiz)
@@ -66,5 +72,12 @@ class AttemptController extends Controller
 
             return redirect()->back()->with(['error' => $e->getMessage()]);
         }
+    }
+
+    public function show(Attempt $attempt)
+    {
+        $attempt->load('quiz', 'answers');
+
+        return view('tenant.attempts.show', compact('attempt'));
     }
 }
