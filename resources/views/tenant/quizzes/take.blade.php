@@ -13,7 +13,7 @@
                         <x-alert :message="$message" color="red" />
                     @enderror
 
-                    <form method="post" action="{{ route('tenant.attemps.store', ['quiz' => $quiz->id]) }}">
+                    <form method="post" action="{{ route('tenant.attempts.store', ['quiz' => $quiz->id]) }}">
                         @csrf
 
                         @foreach ($quiz->questions as $question)
@@ -30,7 +30,7 @@
                                                     <input id="choice-{{ $choice->id }}" type="checkbox"
                                                         class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800"
                                                         name="answers[{{ $question->id }}][]"
-                                                        value="{{ $choice->id }}">
+                                                        value="{{ $choice->id }}" @checked($choice->is_correct)>
                                                     <span
                                                         class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ $choice->title }}</span>
                                                 </label>

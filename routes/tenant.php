@@ -96,6 +96,7 @@ Route::middleware([
             Route::post('quizzes/{quiz}/unsubscribe', [QuizController::class, 'unsubscribe'])->name('quizzes.unsubscribe');
             Route::get('quizzes/{token}', [QuizController::class, 'take'])->name('quizzes.take');
 
-            Route::post('quizzes/{quiz}/attemps', [AttemptController::class, 'store'])->name('attemps.store');
+            Route::post('quizzes/{quiz}/attempts', [AttemptController::class, 'store'])->name('attempts.store');
+            Route::get('attempts', [AttemptController::class, 'index'])->name('attempts.index');
         });
     });

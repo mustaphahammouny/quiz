@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Tenant;
 
+use App\Events\Finished;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Tenant\AttemptRequest;
 use App\Models\Quiz;
@@ -55,9 +56,11 @@ class AttemptController extends Controller
 
             $attempt->answers()->createMany($answers);
 
+            Finished::dispatch(Auth::guard('tenant')->user(), $attempt);
+
             DB::commit();
 
-            return redirect()->route('tenant.quizzes.index')->with(['success' => 'Attempt created successfully!']);
+            return redirect()->route('tenant.quizzes.index')->with(['success' => 'Quiz finished successfully! we sent the score to your email!']);
         } catch (Exception $e) {
             DB::rollBack();
 
