@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Events\Finished;
 use App\Events\Subscribed;
+use App\Listeners\SendFinishedQuizNotification;
 use App\Listeners\SendQuizLinkNotification;
 use App\Listeners\SendQuizReminderNotification;
 use App\Listeners\SendQuizResultNotification;
@@ -28,6 +29,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         Finished::class => [
             SendQuizResultNotification::class,
+            SendFinishedQuizNotification::class,
         ],
     ];
 

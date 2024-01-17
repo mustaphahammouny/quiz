@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\User\AttemptController;
 use App\Http\Controllers\User\ChoiceController;
 use App\Http\Controllers\User\QuestionController;
 use App\Http\Controllers\User\QuizController;
@@ -36,6 +37,8 @@ Route::middleware(['auth', 'verified', InitializeTenancyByUser::class])->group(f
     Route::get('questions/{question}/choices/create', [ChoiceController::class, 'create'])->name('choices.create');
     Route::post('questions/{question}/choices', [ChoiceController::class, 'store'])->name('choices.store');
     Route::resource('choices', ChoiceController::class)->except(['index', 'create', 'store']);
+
+    Route::get('attempts', [AttemptController::class, 'index'])->name('attempts.index');
 });
 
 Route::middleware('auth')->group(function () {
