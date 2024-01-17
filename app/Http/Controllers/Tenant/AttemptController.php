@@ -34,16 +34,10 @@ class AttemptController extends Controller
 
         foreach ($data['answers'] as $questionId => $answerIds) {
             $question = $questions->get($questionId);
-            $choices = $question->choices->keyBy('id');
             $correctChoices = $question->choices->where('is_correct', true);
-
-            $chosenAnswers = [];
-
-            foreach ($answerIds as $answerId) {
-                $chosenAnswers[] = $choices->get($answerId)->title;
-            }
-
-            $isCorrect = empty(array_diff($correctChoices->pluck('id')->toArray(), $answerIds));
+            $chosenAnswers = $question->choices->whereIn('id', $answerIds)->pluck('title')->toArray();            
+            $correctChoicesIds = $correctChoices->pluck('id')->toArray();
+            $isCorrect = empty(array_diff($correctChoicesIds, $answerIds)) && empty(array_diff($answerIds, $correctChoicesIds));
 
             $answers[] = [
                 'question' => $question->question,

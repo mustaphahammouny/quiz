@@ -39,6 +39,7 @@ Route::middleware(['auth', 'verified', InitializeTenancyByUser::class])->group(f
     Route::resource('choices', ChoiceController::class)->except(['index', 'create', 'store']);
 
     Route::get('attempts', [AttemptController::class, 'index'])->name('attempts.index');
+    Route::get('attempts/{attempt}', [AttemptController::class, 'show'])->name('attempts.show');
 });
 
 Route::middleware('auth')->group(function () {
