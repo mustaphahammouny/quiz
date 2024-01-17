@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Stancl\Tenancy\Database\Concerns\BelongsToPrimaryModel;
 
 class Attempt extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, BelongsToPrimaryModel;
 
     protected $fillable = [
         'quiz_id',
@@ -30,5 +31,10 @@ class Attempt extends Model
     public function answers(): HasMany
     {
         return $this->hasMany(Answer::class);
+    }
+
+    public function getRelationshipToPrimaryModel(): string
+    {
+        return 'member';
     }
 }

@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\AttemptController;
 use App\Http\Controllers\User\ChoiceController;
+use App\Http\Controllers\User\DashboardController;
+use App\Http\Controllers\User\MemberController;
 use App\Http\Controllers\User\QuestionController;
 use App\Http\Controllers\User\QuizController;
 use App\Http\Middleware\InitializeTenancyByUser;
@@ -24,7 +26,7 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth', 'verified', InitializeTenancyByUser::class])->group(function () {
-    Route::view('dashboard', 'user.dashboard')->name('dashboard');
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('quizzes', QuizController::class);
 
@@ -40,6 +42,8 @@ Route::middleware(['auth', 'verified', InitializeTenancyByUser::class])->group(f
 
     Route::get('attempts', [AttemptController::class, 'index'])->name('attempts.index');
     Route::get('attempts/{attempt}', [AttemptController::class, 'show'])->name('attempts.show');
+
+    Route::get('members', [MemberController::class, 'index'])->name('members.index');
 });
 
 Route::middleware('auth')->group(function () {
