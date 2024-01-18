@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('answers', function (Blueprint $table) {
             $table->id();
+            $table->string('tenant_id');
             $table->foreignId('attempt_id')->constrained()->onDelete('cascade');
             $table->string('question');
             $table->boolean('is_correct');
@@ -20,6 +21,7 @@ return new class extends Migration
             $table->json('correct_answers');
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('tenant_id')->references('id')->on('tenants')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

@@ -17,7 +17,7 @@ class ChoiceFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => fake()->title(),
+            'title' => fake()->paragraph(1),
             'is_correct' => fake()->boolean(),
             'description' => fake()->text(),
             'explanation' => fake()->text(),

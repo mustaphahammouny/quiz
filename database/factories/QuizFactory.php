@@ -20,7 +20,7 @@ class QuizFactory extends Factory
         $hasTime = fake()->boolean();
 
         return [
-            'title' => fake()->title(),
+            'title' => fake()->paragraph(1),
             'slug' => fake()->slug(),
             'start_time' => $hasTime ? $now->copy()->addMinutes(5) : null,
             'end_time' => $hasTime ? $now->copy()->addMinutes(10) : null,

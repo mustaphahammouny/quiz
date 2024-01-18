@@ -16,7 +16,7 @@
 
 @endforeach
 
-# Your score is : {{ $attempt->answers->where('is_correct', true)->count() }}/{{ $attempt->answers->count() }}
+# Your score is : {{ $attempt->score }}
 
 {{-- Answers --}}
 @foreach ($attempt->answers as $answer)

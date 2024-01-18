@@ -15,7 +15,7 @@
                                 <th scope="col" class="px-6 py-4">Name</th>
                                 <th scope="col" class="px-6 py-4">Email</th>
                                 <th scope="col" class="px-6 py-4">Attempts</th>
-                                <th scope="col" class="px-6 py-4">Created at</th>
+                                <th scope="col" class="px-6 py-4 whitespace-nowrap">Created at</th>
                             </tr>
                         </thead>
                         <tbody>

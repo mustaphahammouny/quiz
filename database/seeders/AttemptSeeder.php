@@ -25,11 +25,8 @@ class AttemptSeeder extends Seeder
                 $member = $members->random();
                 $quiz = $quizzes->random();
 
-                $attempt = $quiz->attempts()->create([
-                    'member_id' => $member->id,
-                ]);
-
                 $answers = [];
+                $correctAnswersCount = 0;
 
                 foreach ($quiz->questions as $question) {
                     $correctChoices = $question->choices->where('is_correct', true);
@@ -44,7 +41,16 @@ class AttemptSeeder extends Seeder
                         'chosen_answers' => $chosenAnswers->pluck('title')->toArray(),
                         'correct_answers' => $correctChoices->pluck('title')->toArray(),
                     ];
+
+                    if ($isCorrect) {
+                        $correctAnswersCount++;
+                    }
                 }
+
+                $attempt = $quiz->attempts()->create([
+                    'member_id' => $member->id,
+                    'score' => ($correctAnswersCount / $quiz->questions->count()) * 100,
+                ]);
 
                 $attempt->answers()->createMany($answers);
             }

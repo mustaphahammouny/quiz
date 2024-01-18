@@ -13,10 +13,13 @@ return new class extends Migration
     {
         Schema::create('attempts', function (Blueprint $table) {
             $table->id();
+            $table->string('tenant_id');
             $table->foreignId('member_id')->constrained()->onDelete('cascade');
             $table->foreignId('quiz_id')->constrained()->onDelete('cascade');
+            $table->decimal('score', 5, 2);
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('tenant_id')->references('id')->on('tenants')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

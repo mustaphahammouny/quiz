@@ -14,8 +14,8 @@
                             <tr>
                                 <th scope="col" class="px-6 py-4">Member</th>
                                 <th scope="col" class="px-6 py-4">Quiz</th>
-                                <th scope="col" class="px-6 py-4">Score</th>
-                                <th scope="col" class="px-6 py-4">Passed At</th>
+                                <th scope="col" class="px-6 py-4 whitespace-nowrap">Score (%)</th>
+                                <th scope="col" class="px-6 py-4 whitespace-nowrap">Passed At</th>
                                 <th scope="col" class="px-6 py-4 text-right">Actions</th>
                             </tr>
                         </thead>
@@ -24,9 +24,7 @@
                                 <tr class="border-b">
                                     <td class="px-6 py-4 font-medium">{{ $attempt->member->name }}</td>
                                     <td class="px-6 py-4 font-medium">{{ $attempt->quiz->title }}</td>
-                                    <td class="px-6 py-4">
-                                        {{ $attempt->answers->where('is_correct', true)->count() }}/{{ $attempt->answers->count() }}
-                                    </td>
+                                    <td class="px-6 py-4">{{ $attempt->score }}</td>
                                     <td class="px-6 py-4">{{ $attempt->created_at->format('d/m/Y H:i') }}</td>
                                     <td class="whitespace-nowrap text-right">
                                         <x-primary-link :href="route('attempts.show', ['attempt' => $attempt->id])">

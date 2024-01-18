@@ -31,6 +31,7 @@ class AttemptController extends Controller
         $questions = $quiz->questions->keyBy('id');
 
         $answers = [];
+        $correctAnswersCount = 0;
 
         foreach ($data['answers'] as $questionId => $answerIds) {
             $question = $questions->get($questionId);
@@ -45,6 +46,10 @@ class AttemptController extends Controller
                 'chosen_answers' => $chosenAnswers,
                 'correct_answers' => $correctChoices->pluck('title')->toArray(),
             ];
+
+            if ($isCorrect) {
+                $correctAnswersCount++;
+            }
         }
 
         try {
@@ -52,6 +57,7 @@ class AttemptController extends Controller
 
             $attempt = $quiz->attempts()->create([
                 'member_id' => Auth::guard('tenant')->id(),
+                'score' => ($correctAnswersCount / $quiz->questions->count()) * 100,
             ]);
 
             $attempt->answers()->createMany($answers);
