@@ -14,6 +14,13 @@ class AuthController extends Controller
 
         $token = Auth::user()->createToken('desktop');
 
-        return ['token' => $token->plainTextToken];
+        return response()->json(['token' => $token->plainTextToken]);
+    }
+
+    public function logout()
+    {
+        $user = Auth::user();
+
+        $user->currentAccessToken()->delete();
     }
 }

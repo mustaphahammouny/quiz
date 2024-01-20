@@ -23,6 +23,8 @@ use Illuminate\Support\Facades\Route;
 Route::post('login', [AuthController::class, 'login']);
 
 Route::middleware(['auth:sanctum', 'verified', InitializeTenancyByUser::class])->group(function () {
+    Route::post('logout', [AuthController::class, 'logout']);
+
     Route::apiResource('quizzes', QuizController::class);
 
     Route::get('quizzes/{quiz}/questions', [QuestionController::class, 'index']);
