@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\User;
 
+use App\Models\Quiz;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class QuestionRequest extends FormRequest
 {
@@ -13,9 +15,15 @@ class QuestionRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'question' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
         ];
+
+        if ($this->isMethod('post')) {
+            $rules['quiz_id'] = ['required', 'integer', Rule::exists(Quiz::class, 'id')->where('tenant_id', tenant('id'))];
+        }
+
+        return $rules;
     }
 }

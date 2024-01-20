@@ -38,7 +38,7 @@
                             <label for="is_correct" class="inline-flex items-center">
                                 <input id="is_correct" type="checkbox"
                                     class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800"
-                                    name="is_correct" @checked($choice->is_correct)>
+                                    name="is_correct" value="on" @checked($choice->is_correct)>
                                 <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">Is correct</span>
                             </label>
                         </div>

@@ -6,12 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User\QuestionRequest;
 use App\Models\Question;
 use App\Models\Quiz;
+use App\Services\QuestionService;
 use Exception;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 class QuestionController extends Controller
 {
+    public function __construct(protected QuestionService $questionService)
+    {
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -33,17 +36,18 @@ class QuestionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(QuestionRequest $request, Quiz $quiz)
+    public function store(QuestionRequest $request)
     {
         $data = $request->validated();
-        $data['quiz_id'] = $quiz->id;
 
-        $question = new Question();
+        try {
+            $question = $this->questionService->store($data);
 
-        $this->persist($question, $data);
-
-        return redirect()->route('questions.index', ['quiz' => $quiz->id])
-            ->with('success', 'Quiz created successfully!');
+            return redirect()->route('questions.index', ['quiz' => $question->quiz_id])
+                ->with('success', 'Quiz created successfully!');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -71,10 +75,14 @@ class QuestionController extends Controller
     {
         $data = $request->validated();
 
-        $this->persist($question, $data);
+        try {
+            $this->questionService->update($question, $data);
 
-        return redirect()->route('questions.index', ['quiz' => $question->quiz_id])
-            ->with('success', 'Question updated successfully!');
+            return redirect()->route('questions.index', ['quiz' => $question->quiz_id])
+                ->with('success', 'Question updated successfully!');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -82,28 +90,11 @@ class QuestionController extends Controller
      */
     public function destroy(Question $question)
     {
-        $question->delete();
-
-        return redirect()->back()->with('success', 'Question deleted successfully!');
-    }
-
-    private function persist(Question $question, array $data)
-    {
-        $data['slug'] = Str::slug($data['question']);
-
         try {
-            DB::beginTransaction();
+            $this->questionService->delete($question);
 
-            $question->fill($data);
-
-            $question->save();
-
-            DB::commit();
-
-            return $question;
+            return redirect()->back()->with('success', 'Question deleted successfully!');
         } catch (Exception $e) {
-            DB::rollback();
-
             return redirect()->back()->with('error', $e->getMessage());
         }
     }

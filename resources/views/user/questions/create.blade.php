@@ -16,8 +16,9 @@
                 <div class="w-full sm:max-w-md mx-auto p-6 text-gray-900 dark:text-gray-100">
                     <x-alert-session />
 
-                    <form method="post" action="{{ route('questions.store', ['quiz' => $quiz->id]) }}">
+                    <form method="post" action="{{ route('questions.store') }}">
                         @csrf
+                        <input type="hidden" name="quiz_id" value="{{ $quiz->id }}" />
 
                         <div>
                             <x-input-label for="question" value="Question" />

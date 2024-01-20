@@ -16,8 +16,9 @@
                 <div class="w-full sm:max-w-md mx-auto p-6 text-gray-900 dark:text-gray-100">
                     <x-alert-session />
 
-                    <form method="post" action="{{ route('choices.store', ['question' => $question->id]) }}">
+                    <form method="post" action="{{ route('choices.store') }}">
                         @csrf
+                        <input type="hidden" name="question_id" value="{{ $question->id }}" />
 
                         <div>
                             <x-input-label for="title" value="title" />
@@ -37,7 +38,7 @@
                             <label for="is_correct" class="inline-flex items-center">
                                 <input id="is_correct" type="checkbox"
                                     class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800"
-                                    name="is_correct">
+                                    name="is_correct" value="on">
                                 <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">Is correct</span>
                             </label>
                         </div>

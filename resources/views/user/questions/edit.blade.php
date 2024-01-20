@@ -16,7 +16,7 @@
                 <div class="w-full sm:max-w-md mx-auto p-6 text-gray-900 dark:text-gray-100">
                     <x-alert-session />
 
-                    <form method="post" action="{{ route('questions.update', ['question' => $question->quiz_id]) }}">
+                    <form method="post" action="{{ route('questions.update', ['question' => $question->id]) }}">
                         @csrf
                         @method('put')
 

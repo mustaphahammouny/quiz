@@ -32,13 +32,11 @@ Route::middleware(['auth', 'verified', InitializeTenancyByUser::class])->group(f
 
     Route::get('quizzes/{quiz}/questions', [QuestionController::class, 'index'])->name('questions.index');
     Route::get('quizzes/{quiz}/questions/create', [QuestionController::class, 'create'])->name('questions.create');
-    Route::post('quizzes/{quiz}/questions', [QuestionController::class, 'store'])->name('questions.store');
-    Route::resource('questions', QuestionController::class)->except(['index', 'create', 'store']);
+    Route::resource('questions', QuestionController::class)->except(['index', 'create']);
 
     Route::get('questions/{question}/choices', [ChoiceController::class, 'index'])->name('choices.index');
     Route::get('questions/{question}/choices/create', [ChoiceController::class, 'create'])->name('choices.create');
-    Route::post('questions/{question}/choices', [ChoiceController::class, 'store'])->name('choices.store');
-    Route::resource('choices', ChoiceController::class)->except(['index', 'create', 'store']);
+    Route::resource('choices', ChoiceController::class)->except(['index', 'create']);
 
     Route::get('attempts', [AttemptController::class, 'index'])->name('attempts.index');
     Route::post('attempts/export', [AttemptController::class, 'export'])->name('attempts.export');

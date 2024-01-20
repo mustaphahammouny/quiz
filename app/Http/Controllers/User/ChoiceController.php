@@ -6,11 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User\ChoiceRequest;
 use App\Models\Choice;
 use App\Models\Question;
+use App\Services\ChoiceService;
 use Exception;
-use Illuminate\Support\Facades\DB;
 
 class ChoiceController extends Controller
 {
+    public function __construct(protected ChoiceService $choiceService)
+    {
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -32,18 +36,18 @@ class ChoiceController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ChoiceRequest $request, Question $question)
+    public function store(ChoiceRequest $request)
     {
         $data = $request->validated();
-        $data['question_id'] = $question->id;
-        $data['is_correct'] = $request->boolean('is_correct');
 
-        $choice = new Choice();
+        try {
+            $choice = $this->choiceService->store($data);
 
-        $this->persist($choice, $data);
-
-        return redirect()->route('choices.index', ['question' => $question->id])
-            ->with('success', 'Choice created successfully!');
+            return redirect()->route('choices.index', ['question' => $choice->question_id])
+                ->with('success', 'Choice created successfully!');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -70,12 +74,15 @@ class ChoiceController extends Controller
     public function update(ChoiceRequest $request, Choice $choice)
     {
         $data = $request->validated();
-        $data['is_correct'] = $request->boolean('is_correct');
 
-        $this->persist($choice, $data);
+        try {
+            $this->choiceService->update($choice, $data);
 
-        return redirect()->route('choices.index', ['question' => $choice->question_id])
-            ->with('success', 'Choice updated successfully!');
+            return redirect()->route('choices.index', ['question' => $choice->question_id])
+                ->with('success', 'Choice updated successfully!');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -83,26 +90,11 @@ class ChoiceController extends Controller
      */
     public function destroy(Choice $choice)
     {
-        $choice->delete();
-
-        return redirect()->back()->with('success', 'Choice deleted successfully!');
-    }
-
-    private function persist(Choice $choice, array $data)
-    {
         try {
-            DB::beginTransaction();
+            $this->choiceService->delete($choice);
 
-            $choice->fill($data);
-
-            $choice->save();
-
-            DB::commit();
-
-            return $choice;
+            return redirect()->back()->with('success', 'Choice deleted successfully!');
         } catch (Exception $e) {
-            DB::rollback();
-
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
