@@ -5,12 +5,15 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\QuizRequest;
 use App\Models\Quiz;
+use App\Services\QuizService;
 use Exception;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 class QuizController extends Controller
 {
+    public function __construct(protected QuizService $quizService)
+    {
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -36,12 +39,14 @@ class QuizController extends Controller
     {
         $data = $request->validated();
 
-        $quiz = new Quiz();
+        try {
+            $this->quizService->store($data);
 
-        $this->persist($quiz, $data);
-
-        return redirect()->route('quizzes.index')
-            ->with('success', 'Quiz created successfully!');
+            return redirect()->route('quizzes.index')
+                ->with('success', 'Quiz created successfully!');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -67,10 +72,14 @@ class QuizController extends Controller
     {
         $data = $request->validated();
 
-        $this->persist($quiz, $data);
+        try {
+            $this->quizService->update($quiz, $data);
 
-        return redirect()->route('quizzes.index')
-            ->with('success', 'Quiz updated successfully!');
+            return redirect()->route('quizzes.index')
+                ->with('success', 'Quiz updated successfully!');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -78,28 +87,11 @@ class QuizController extends Controller
      */
     public function destroy(Quiz $quiz)
     {
-        $quiz->delete();
-
-        return redirect()->back()->with('success', 'Quiz deleted successfully!');
-    }
-
-    private function persist(Quiz $quiz, array $data)
-    {
-        $data['slug'] = Str::slug($data['title']);
-
         try {
-            DB::beginTransaction();
+            $this->quizService->delete($quiz);
 
-            $quiz->fill($data);
-
-            $quiz->save();
-
-            DB::commit();
-
-            return $quiz;
+            return redirect()->back()->with('success', 'Quiz deleted successfully!');
         } catch (Exception $e) {
-            DB::rollback();
-
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
